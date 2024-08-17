@@ -1,4 +1,4 @@
-#0x00. Pagination
+# 0x00. Pagination
 
 # Resources
 **Read or watch**:
