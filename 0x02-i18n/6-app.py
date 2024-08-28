@@ -2,7 +2,7 @@
 """A Basic Flask app"""
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
-from typing import Union
+from typing import Dict, Union
 
 
 class Config:
@@ -33,6 +33,7 @@ def get_locale() -> Union[str, None]:
     if locale and locale in app.config['LANGUAGES']:
         return locale
     # locale from user settings (if they are logged in)
+    print('G.USER IS: ', g.user)
     if g.user and g.user.get('locale') in app.config['LANGUAGES']:
         return g.user.get('locale')
     # locale from custom request header
@@ -44,7 +45,7 @@ def get_locale() -> Union[str, None]:
     # Fall back to BABEL_DEFAULT_LOCALE handled by babel
 
 
-def get_user():
+def get_user() -> Union[Dict, None]:
     """helper func. to get a user by their id"""
     login_id = request.args.get('login_as')
     if login_id:
@@ -53,11 +54,9 @@ def get_user():
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """set a user in the global `g` object before each request"""
-    user = get_user()
-    if user:
-        g.user = user
+    g.user = get_user()
 
 
 @app.route('/')
@@ -67,4 +66,4 @@ def get_index() -> str:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
