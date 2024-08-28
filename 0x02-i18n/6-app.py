@@ -33,7 +33,6 @@ def get_locale() -> Union[str, None]:
     if locale and locale in app.config['LANGUAGES']:
         return locale
     # locale from user settings (if they are logged in)
-    print('G.USER IS: ', g.user)
     if g.user and g.user.get('locale') in app.config['LANGUAGES']:
         return g.user.get('locale')
     # locale from custom request header
