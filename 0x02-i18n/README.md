@@ -113,3 +113,25 @@ In your HTML template, if a user is logged in, in a paragraph tag, display a wel
 
 ```Visiting http://127.0.0.1:5000/``` in your browser should display this:
 ![](./imgs/q_5_display.PNG)
+
+## 6. Use user locale
+Change your ```get_locale``` function to use a user’s preferred local if it is supported.
+
+The order of priority should be
+1. Locale from URL parameters
+2. Locale from user settings
+3. Locale from request header
+4. Default locale
+
+Test by logging in as different users
+![](./imgs/q6_display.PNG)
+
+## 7. Infer appropriate time zone
+Define a ```get_timezone``` function and use the ```babel.timezoneselector``` decorator.
+
+The logic should be the same as ```get_locale```:
+1. Find ```timezone``` parameter in URL parameters
+2. Find time zone from user settings
+3. Default to UTC
+
+Before returning a URL-provided or user time zone, you must validate that it is a valid time zone. To that, use pytz.timezone and catch the ```pytz.exceptions.UnknownTimeZoneError``` exception.
